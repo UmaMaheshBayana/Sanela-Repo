@@ -1,0 +1,27 @@
+To Install Gitlab on Ubuntu 20.4.1
+
+Installation Process:
+Run lsb_release command to check the installed version of OS as follows.
+→ sudo su
+→ lsb_release -a
+
+To install packages type below command.
+
+→ sudo apt-get install openssh-server postfix -y
+
+After above ,Here you should configure the email gateway
+
+After completing the above step Install Gitlab by using below command:
+
+→ wget --content-disposition https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/xenial/gitlab-ce_13.5.4-ce.0_amd64.deb/download.deb
+
+→ dpkg -i gitlab-ce_13.5.4-ce.0_amd64.deb
+
+→ nano /etc/gitlab/gitlab.rb
+
+Change url address www.gitlab.com to your domain(gitlab.sanelahealth.com)
+
+→ gitlab-ctl reconfigure
+
+After completing the reconfigure goto browser type gitlab and entr ip address in address bar. It will open gitlab page and ask to set password, default user will be ‘root’
+
