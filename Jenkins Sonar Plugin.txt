@@ -1,0 +1,23 @@
+Login to jenkins and in the plugin manager, install SonarQube server plugins and SonarQube Scanner.
+Go Manage Jenkins → Configure System and Scroll down to SonarQube servers.
+At SonarQube installations enter Name and Server URL. Apply setting and save.
+Go to individual projects, Open Configure and select Post step.
+Click on Add post-build Step and select Execute SonarQube scanner.
+In Execute SonarQube scanner. Past below command lines at Analysis Properties.
+
+# Required metadata
+sonar.projectKey=$in.sanela.async(Enter project Key)
+# Source information
+sonar.sources=./service/src/main/
+sonar.sourceEncoding=UTF-8
+sonar.language=java
+# Tests
+sonar.tests=./service/src/test
+sonar.junit.reportsPath=target/surefire-reports
+sonar.surefire.reportsPath=target/surefire-reports
+sonar.jacoco.reportPath=target/jacoco.exec
+sonar.java.binaries=./service/target/test-classes
+sonar.java.coveragePlugin=jacoco
+
+Apply and save the settings.
+Build the solution and check in the console for logs.
