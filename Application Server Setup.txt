@@ -1,0 +1,121 @@
+EC2 Instance
+
+Take one Ec2 instance in AWS as per the requirement (existing we have “t2 Large” Ubuntu machine with 64GB storage
+
+
+Install JAVA in the machine 
+
+→ Sudo apt-get update
+→ sudo apt install openjdk-8-jdk
+→ cd /usr/lib/jvm/java-8-openjdk-amd64/
+→ pwd 
+copy the path
+→ sudo nano /etc/environment
+Past the below line in environment file
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+To check java version : 
+→ java -version
+
+
+Install Tomcat in the machine:
+
+
+→sudo wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.46/bin/apache-tomcat-8.0.46.tar.gz
+→ sudo tar -xvf apache-tomcat-8.0.46.tar.gz
+→ sudo mv apache-tomcat-8.0.46 tomcat
+→ cd tomcat/
+→ echo "export CATALINA_HOME="/home/ubuntu/tomcat8"" >> ~/.bashrc
+→ cd /home/ubuntu/tomcat/bin
+Create sanela and server directory in /opt Move tomcat to server
+→ mv /home/ubuntu/tomcat/  /opt/sanela/server/
+To check the tomcat status
+→ ps -ef | grep tomcat
+To start the tomcat
+→ cd /opt/sanela/server/tomcat/bin/
+→ sudo sh startup.sh
+To restart tomcat
+→ sudo kill -9 ‘tomcat id’
+create tomcat username password
+→ cd  /opt/sanela/server/tomcat/conf
+→ sudo nano tomcat-users.xml
+Past below lines in the file above tomcat user line
+<role rolename="manager-gui"/>
+<user username="tomcat" password="san3la" roles="manager-gui"/>
+And save the file(ctl+x , y , enter)
+
+
+To change the tomcat port
+→ cd  /opt/sanela/server/tomcat/conf
+→ sudo nano service.xml
+Change Connector port 8080 to 9090 and save the file(ctrl+x, y, enter)  
+
+
+Jenkins Server installation
+
+→ wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+→ sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ 
+    /etc/apt/sources.list.d/jenkins.list'
+→ sudo apt-get update
+→ sudo apt-get install jenkins
+Jenkins default port is 8080
+Note: Jenkins login user ID and password will be generated after the setup
+
+
+Nginx and configure ssl certificate
+
+→sudo apt-get install nginx
+Create a configuration file in conf.d
+→cd /etc/nginx/conf.d
+→ sudo nano default.conf 
+Past the below script in default.conf
+
+server {
+        Server_name —---------(enter the site name here);
+        location /.well-known/ {
+                root /var/www/—-----(enter the site name here)/.well-known/;
+        }
+
+        location / {
+                return 301 https://$server_name$request_uri;
+        }
+}
+
+→ sudo apt-get install software-properties-common
+→ #sudo add-apt-repository ppa:certbot/certbot
+→ sudo apt update
+→ sudo apt-get install python3-certbot-nginx 
+→ sudo certbot --authenticator webroot --installer nginx
+It will ask for the webroot path 
+→ /var/www/html/
+Edit /etc/nginx/conf.d/default.conf
+
+Note :- replace your site name where you see sanela.in
+
+server {
+	server_name sanela.in;
+	listen 443 ssl;
+
+	location / {
+		Proxy_pass http://127.0.0.1:8080;
+	        proxy_set_header    X-Real-IP $remote_addr;
+	        proxy_set_header    Host      $http_host;
+		proxy_set_header X-Forwarded-Proto https;
+	        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+	}
+
+	ssl_certificate     /etc/letsencrypt/live/sanela.in/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/sanela.in/privkey.pem;
+	ssl on;
+
+}
+
+
+Enable Nginx
+You can now start and enable Nginx, then head over to your URL in a web browser to test that everything worked.
+→  sudo systemctl enable nginx
+→  sudo systemctl start nginx
+
+
+
+
