@@ -1,0 +1,12 @@
+1. Openvpn Ssl Certificate Configuration Link
+https://nsayeed.com/guide-openvpn-access-server-lets-encrypt/
+
+2. Jenkins SMTP email configuration for build success and failure report.
+https://www.youtube.com/watch?v=MFgbp00hbVI
+
+3. Install Sonarqube on ubuntu 20.04
+https://www.youtube.com/watch?v=BKDX0rTwkcE
+https://www.fosstechnix.com/how-to-install-sonarqube-on-ubuntu-20-04/
+
+4. Install OpenVpn on ubuntu 20.04
+https://www.youtube.com/watch?v=-8qySFJ5z7o&t=186s
