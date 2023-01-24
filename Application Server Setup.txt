@@ -5,7 +5,7 @@ Take one Ec2 instance in AWS as per the requirement (existing we have “t2 Larg
 
 Install JAVA in the machine 
 
-→ Sudo apt-get update
+→ sudo apt-get update
 → sudo apt install openjdk-8-jdk
 → cd /usr/lib/jvm/java-8-openjdk-amd64/
 → pwd 
@@ -96,7 +96,7 @@ server {
 	listen 443 ssl;
 
 	location / {
-		Proxy_pass http://127.0.0.1:8080;
+		proxy_pass http://127.0.0.1:8080;
 	        proxy_set_header    X-Real-IP $remote_addr;
 	        proxy_set_header    Host      $http_host;
 		proxy_set_header X-Forwarded-Proto https;
